@@ -208,7 +208,7 @@ Aplikasi akan memulai ulang...");
         {
             Console.WriteLine("Sedang dalam pengerjaan hihi...");
             Thread.Sleep(1000);
-            Environment.Exit(0);
+            Exit_App();
         }
     }
 }
