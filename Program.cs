@@ -49,10 +49,10 @@ Silahkan masukkan pilihan operasi perhitungan anda!
 [2] Penghitungan Lainnya (Sudut Sin Cos Tan)
 [0] Keluar aplikasi");
                 Console.Write("Pilihan Kamu: ");
-                string pilihan = Console.ReadLine();
+                string pilihan = Console.ReadLine() ?? "";
                 if (int.TryParse(pilihan, out int choose))
                 {
-                    if ((choose == 1) || (choose == 2) || (choose == 0))
+                    if (choose <=3 && choose >= 0)
                     {
                         pilihan_user = choose;
                         break;
@@ -96,54 +96,68 @@ Aplikasi menutup secara otomatis dalam beberapa saat...");
 
         private static void PenghitunganDasar()
         {
-            Console.Clear();
-            Console.WriteLine(@"Silahkan pilih metode penghitungan anda!
-[1] Tambah
-[2] Kali
-[3] Kurang
-[4] Bagi");
-            Console.Write("Pilihan: ");
-
-            string pilihan = Console.ReadLine();
-            int pilihanuser;
-            double angka_1;
-            double angka_2;
+            int pilihanuser = 0;
+            double angka_1 = 0;
+            double angka_2 = 0;
 
             while (true)
             {
+                Console.Clear();
+                Console.WriteLine(@"Silahkan pilih metode penghitungan anda!
+[1] Tambah
+[2] Kali
+[3] Kurang
+[4] Bagi
+[5] Kembali ke halaman utama");
+                Console.Write("Pilihan: ");
+                string pilihan = Console.ReadLine() ?? "";
                 if (int.TryParse(pilihan, out int choose))
                 {
-                    pilihanuser = choose;
-                    while (true)
+                    if (choose <= 5 && choose > 0)
                     {
-                        Console.Clear();
-                        Console.Write("Masukkan angka pertama: ");
-                        string angka_1_str = Console.ReadLine();
-                        if (double.TryParse(angka_1_str, out double x))
+                        if (choose == 5)
                         {
-                            angka_1 = x;
+                            HalamanUtama();
                             break;
                         }
-                        Console.Clear();
-                        Console.WriteLine("Harap masukkan angka!");
-                        Thread.Sleep(1000);
-                    }
+                        pilihanuser = choose;
+                        while (true)
+                        {
+                            Console.Clear();
+                            Console.Write("Masukkan angka pertama: ");
+                            string angka_1_str = Console.ReadLine() ?? "";
+                            if (double.TryParse(angka_1_str, out double x))
+                            {
+                                angka_1 = x;
+                                break;
+                            }
+                            Console.Clear();
+                            Console.WriteLine("Harap masukkan angka!");
+                            Thread.Sleep(1000);
+                        }
 
-                    while (true)
+                        while (true)
+                        {
+                            Console.Clear();
+                            Console.Write("Masukkan angka kedua: ");
+                            string angka_2_str = Console.ReadLine() ?? "";
+                            if (double.TryParse(angka_2_str, out double y))
+                            {
+                                angka_2 = y;
+                                break;
+                            }
+                            Console.Clear();
+                            Console.WriteLine("Harap masukkan angka!");
+                            Thread.Sleep(1000);
+                        }
+                        break;
+                    }
+                    else
                     {
                         Console.Clear();
-                        Console.Write("Masukkan angka kedua: ");
-                        string angka_2_str = Console.ReadLine();
-                        if (double.TryParse(angka_2_str, out double y))
-                        {
-                            angka_2 = y;
-                            break;
-                        }
-                        Console.Clear();
-                        Console.WriteLine("Harap masukkan angka!");
+                        Console.WriteLine("Pilihan tidak tersedia !");
                         Thread.Sleep(1000);
                     }
-                    break;
                 }
             }
             try
@@ -159,7 +173,7 @@ Apa yang ingin anda lakukan?
 [1] Copy hasil ke clipboard
 [2] Kembali ke halaman utama");
                     Console.Write("Pilihan: ");
-                    string pilihan_akhir = Console.ReadLine();
+                    string pilihan_akhir = Console.ReadLine() ?? "";
                     if (int.TryParse(pilihan_akhir, out int pa))
                     {
                         pilihanakhir = pa;
@@ -212,21 +226,30 @@ Aplikasi akan memulai ulang...");
                 Console.Clear();
                 Console.WriteLine(@"Silahkan tentukan pilihan opsi penghitungan!
 [1] Cari nilai dari sudut tertentu
-[2] Cari sudut dari nilai tertentu");
+[2] Cari sudut dari nilai tertentu
+[3] Kembali ke halaman utama");
                 Console.Write("Pilihan: ");
 
-                string pilihan = Console.ReadLine();
+                string pilihan = Console.ReadLine() ?? "";
                 if (int.TryParse(pilihan, out int pa))
                 {
-                    if (pa == 1)
+                    if (pa <= 3 && pa > 0)
                     {
-                        Cari_Nilai_Dari_Sudut();
-                        break;
-                    }
-                    else if (pa == 2)
-                    {
-                        Cari_Sudut_Dari_Nilai();
-                        break;
+                        if (pa == 1)
+                        {
+                            Cari_Nilai_Dari_Sudut();
+                            break;
+                        }
+                        else if (pa == 2)
+                        {
+                            Cari_Sudut_Dari_Nilai();
+                            break;
+                        }
+                        else if (pa == 3)
+                        {
+                            HalamanUtama();
+                            break;
+                        }
                     }
                     else
                     {
@@ -246,41 +269,112 @@ Aplikasi akan memulai ulang...");
 
         private static void Cari_Sudut_Dari_Nilai()
         {
-            throw new NotImplementedException();
-        }
-
-        private static void Cari_Nilai_Dari_Sudut()
-        {
             double sudut = 0;
-            double hasil_hitung = 0.00;
-            bool is_infinity = false;
+            double hasil_hitung = 0;
             int pilihan = 0;
             string display_jawaban = "";
             List<string> pilihan_hitung = new List<string>()
             {
-                "Sin",
-                "Cos",
-                "Tan",
-                "Cosec",
-                "Secan",
-                "Cotangen"
+                "SIN",
+                "COS",
+                "TAN",
+                "CSC",
+                "SEC",
+                "COT",
             };
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine(@"Silahkan pilih tipe sudut yang akan dicari nilainya!
+                Console.WriteLine(@"Silahkan pilih fungsi trigonometri!
 [1] Sin
 [2] Cos
 [3] Tan
 [4] Cosec (csc)
 [5] Secan (sec)
-[6] Cotangen (cot)");
+[6] Cotangen (cot)
+[7] Kembali ke halaman utama");
                 Console.Write("Pilihan anda: ");
-                string pilihan_ = Console.ReadLine();
+                string pilihan_ = Console.ReadLine() ?? "";
                 if (int.TryParse(pilihan_, out int hasil))
                 {
-                    if (hasil <= 6 && hasil > 0)
+                    if (hasil <= 7 && hasil > 0)
                     {
+                        if (hasil == 7)
+                        {
+                            HalamanUtama();
+                            break;
+                        }
+                        pilihan = hasil;
+                        break;
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Pilihan tidak tersedia!");
+                        Thread.Sleep(1000);
+                    }
+                }
+
+            }
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("Silahkan masukkan angka radian yang akan dicari sudutnya!");
+                Console.Write("Angka Sudut (bukan radian): ");
+                string sudut_input = Console.ReadLine() ?? "";
+                if (double.TryParse(sudut_input, out double sudut_))
+                {
+                    sudut = sudut_;
+                    break;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Input yang anda masukkan bukanlah angka");
+                    Thread.Sleep(1000);
+                }
+            }
+        }
+
+        private static void Cari_Nilai_Dari_Sudut()
+        {
+            double sudut = 0;
+            double hasil_hitung = 0;
+            bool is_infinity = false;
+            int pilihan = 0;
+            string display_jawaban = "";
+            List<string> pilihan_hitung = new List<string>()
+            {
+                "SIN",
+                "COS",
+                "TAN",
+                "CSC",
+                "SEC",
+                "COT",
+            };
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine(@"Silahkan pilih fungsi trigonometri!
+[1] Sin
+[2] Cos
+[3] Tan
+[4] Cosec (csc)
+[5] Secan (sec)
+[6] Cotangen (cot)
+[7] Kembali ke halaman utama");
+                Console.Write("Pilihan anda: ");
+                string pilihan_ = Console.ReadLine() ?? "";
+                if (int.TryParse(pilihan_, out int hasil))
+                {
+                    if (hasil <= 7 && hasil > 0)
+                    {
+                        if(hasil == 7)
+                        {
+                            HalamanUtama();
+                            break;
+                        }
                         pilihan = hasil;
                         break;
                     }
@@ -299,7 +393,7 @@ Aplikasi akan memulai ulang...");
                 Console.Clear();
                 Console.WriteLine("Silahkan masukkan sudut yang akan dicari nilainya!");
                 Console.Write("Angka Sudut (bukan radian): ");
-                string sudut_input = Console.ReadLine();
+                string sudut_input = Console.ReadLine() ?? "";
                 if (double.TryParse(sudut_input, out double sudut_))
                 {
                     sudut = sudut_;
@@ -335,7 +429,7 @@ Aplikasi akan memulai ulang...");
             }
             else
             {
-                display_jawaban = $"{pilihan_hitung[pilihan - 1]} ({sudut}°) = Tak Terhingga";
+                display_jawaban = $"{pilihan_hitung[pilihan - 1]} ({sudut}°) = Tak Terdefinisi";
             }
             while (true)
             {
@@ -353,7 +447,7 @@ Operasi penghitungan matematika telah selesai. Apa yang ingin anda lakukan?
 [1] Copy penghitungan ke clipboard
 [2] Kembali ke halaman utama");
                 Console.Write("Pilihan: ");
-                string opsi_akhir = Console.ReadLine();
+                string opsi_akhir = Console.ReadLine() ?? "";
                 if (int.TryParse(opsi_akhir, out int result))
                 {
                     if (result <= 2 && result > 0)
@@ -375,6 +469,12 @@ Operasi penghitungan matematika telah selesai. Apa yang ingin anda lakukan?
                             break;
                         }
                     }
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Pilihan harus berupa angka!");
+                    Thread.Sleep(1000);
                 }
             }
         }

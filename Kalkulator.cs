@@ -45,7 +45,14 @@ namespace Kalkulator_CMD
             }
             else if (opsi == 2)
             {
-                return Math.Cos(radian_);
+                if (a != 90)
+                {
+                    return Math.Cos(radian_);
+                }
+                else
+                {
+                    return 0;
+                }
             }
             else if (opsi == 3)
             {
@@ -64,7 +71,14 @@ namespace Kalkulator_CMD
             }
             else if (opsi == 5)
             {
-                return 1 / Math.Cos(radian_);
+                if (a != 90)
+                {
+                    return 1 / Math.Cos(radian_);
+                }
+                else
+                {
+                    throw new Exception();
+                }
             }
             else if (opsi == 6)
             {
@@ -74,7 +88,7 @@ namespace Kalkulator_CMD
                 }
                 else
                 {
-                    throw new Exception();
+                    return 0;
                 }
             }
             else
