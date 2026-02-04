@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Threading;
 namespace Kalkulator_CMD
@@ -45,7 +46,7 @@ namespace Kalkulator_CMD
                 Console.WriteLine(@"Halo, selamat datang di kalkulator CMD
 Silahkan masukkan pilihan operasi perhitungan anda!
 [1] Penghitungan Dasar (Tambah, Kali, Kurang, Bagi)
-[2] Penghitungan Lainnya (Sin, Cos, Tan)
+[2] Penghitungan Lainnya (Sudut Sin Cos Tan)
 [0] Keluar aplikasi");
                 Console.Write("Pilihan Kamu: ");
                 string pilihan = Console.ReadLine();
@@ -156,10 +157,10 @@ Aplikasi menutup secara otomatis dalam beberapa saat...");
 =============================================================================
 Apa yang ingin anda lakukan?
 [1] Copy hasil ke clipboard
-[2] Keluar");
+[2] Kembali ke halaman utama");
                     Console.Write("Pilihan: ");
                     string pilihan_akhir = Console.ReadLine();
-                    if(int.TryParse(pilihan_akhir, out int pa))
+                    if (int.TryParse(pilihan_akhir, out int pa))
                     {
                         pilihanakhir = pa;
                         break;
@@ -171,7 +172,7 @@ Apa yang ingin anda lakukan?
                         Thread.Sleep(1000);
                     }
                 }
-                if(pilihanakhir == 1)
+                if (pilihanakhir == 1)
                 {
                     Console.Clear();
                     CopyToClipboard($"{hasil}");
@@ -206,9 +207,176 @@ Aplikasi akan memulai ulang...");
 
         private static void PenghitunganLainnya()
         {
-            Console.WriteLine("Sedang dalam pengerjaan hihi...");
-            Thread.Sleep(1000);
-            Exit_App();
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine(@"Silahkan tentukan pilihan opsi penghitungan!
+[1] Cari nilai dari sudut tertentu
+[2] Cari sudut dari nilai tertentu");
+                Console.Write("Pilihan: ");
+
+                string pilihan = Console.ReadLine();
+                if (int.TryParse(pilihan, out int pa))
+                {
+                    if (pa == 1)
+                    {
+                        Cari_Nilai_Dari_Sudut();
+                        break;
+                    }
+                    else if (pa == 2)
+                    {
+                        Cari_Sudut_Dari_Nilai();
+                        break;
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Pilihan tidak tersedia!");
+                        Thread.Sleep(1000);
+                    }
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Pilihan harus berupa angka!");
+                    Thread.Sleep(1000);
+                }
+            }
+        }
+
+        private static void Cari_Sudut_Dari_Nilai()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void Cari_Nilai_Dari_Sudut()
+        {
+            double sudut = 0;
+            double hasil_hitung = 0.00;
+            bool is_infinity = false;
+            int pilihan = 0;
+            string display_jawaban = "";
+            List<string> pilihan_hitung = new List<string>()
+            {
+                "Sin",
+                "Cos",
+                "Tan",
+                "Cosec",
+                "Secan",
+                "Cotangen"
+            };
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine(@"Silahkan pilih tipe sudut yang akan dicari nilainya!
+[1] Sin
+[2] Cos
+[3] Tan
+[4] Cosec (csc)
+[5] Secan (sec)
+[6] Cotangen (cot)");
+                Console.Write("Pilihan anda: ");
+                string pilihan_ = Console.ReadLine();
+                if (int.TryParse(pilihan_, out int hasil))
+                {
+                    if (hasil <= 6 && hasil > 0)
+                    {
+                        pilihan = hasil;
+                        break;
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Pilihan tidak tersedia!");
+                        Thread.Sleep(1000);
+                    }
+                }
+
+            }
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("Silahkan masukkan sudut yang akan dicari nilainya!");
+                Console.Write("Angka Sudut (bukan radian): ");
+                string sudut_input = Console.ReadLine();
+                if (double.TryParse(sudut_input, out double sudut_))
+                {
+                    sudut = sudut_;
+                    break;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Input yang anda masukkan bukanlah angka");
+                    Thread.Sleep(1000);
+                }
+            }
+            try
+            {
+                Console.Clear();
+                hasil_hitung = Kalkulator.Nilai_Dari_Sudut(sudut, pilihan);
+                Console.WriteLine($"Hasil dari {pilihan_hitung[pilihan - 1]}{sudut}° = {hasil_hitung}");
+            }
+            catch (NotImplementedException)
+            {
+                Console.WriteLine("Fungsi tidak didefinisikan!");
+                Thread.Sleep(1000);
+                Cari_Nilai_Dari_Sudut();
+            }
+            catch (Exception)
+            {
+                is_infinity = true;
+                Console.WriteLine($"Hasil dari {pilihan_hitung[pilihan - 1]}{sudut}° = Tak Terhingga");
+            }
+            if(is_infinity == false)
+            {
+                display_jawaban = $"{pilihan_hitung[pilihan - 1]} ({sudut}°) = {hasil_hitung}";
+            }
+            else
+            {
+                display_jawaban = $"{pilihan_hitung[pilihan - 1]} ({sudut}°) = Tak Terhingga";
+            }
+                while (true)
+                {
+                    Console.Clear();
+                    if (is_infinity == false)
+                    {
+                        Console.WriteLine($"Hasil dari {display_jawaban}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Hasil dari {display_jawaban}");
+                    }
+                    Console.WriteLine(@"=========================================
+Operasi penghitungan matematika telah selesai. Apa yang ingin anda lakukan?
+[1] Copy penghitungan ke clipboard
+[2] Kembali ke halaman utama");
+                    Console.Write("Pilihan: ");
+                    string opsi_akhir = Console.ReadLine();
+                    if (int.TryParse(opsi_akhir, out int result))
+                    {
+                        if (result <= 2 && result > 0)
+                        {
+                            if (result == 1)
+                            {
+                                Console.Clear();
+                                CopyToClipboard(display_jawaban);
+                                Console.WriteLine("Jawaban telah disalin ke clipboard!");
+                                Thread.Sleep(1000);
+                       
+                            }
+                            else if (result == 2)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Kembali ke halaman utama...");
+                                Thread.Sleep(1000);
+                                HalamanUtama();
+                                break;
+                            }
+                        }
+                    }
+                }
         }
     }
 }

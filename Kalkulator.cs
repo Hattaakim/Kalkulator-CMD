@@ -35,21 +35,42 @@ namespace Kalkulator_CMD
             }
         }
 
-        public static double Penghitungan_Lainnya(double a, int opsi)
+        //Math.Sin/Cos/Tan cuma terima radian, bukan sudut
+        public static double Nilai_Dari_Sudut(double a, int opsi)
         {
+            double radian_ = ConvertToRadian(a);
             if (opsi == 1) //sin
             {
-                return Math.Sin(a);
+                return Math.Sin(radian_);
             }
-            else if(opsi == 2) //cos
+            else if (opsi == 2)
             {
-                return Math.Cos(a);
+                return Math.Cos(radian_);
             }
-            else if(opsi == 3) //tan
+            else if (opsi == 3)
             {
                 if (a != 90)
                 {
-                    return Math.Tan(a);
+                    return Math.Tan(radian_);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            else if (opsi == 4) //cosec
+            {
+                return 1 / Math.Sin(radian_);
+            }
+            else if (opsi == 5)
+            {
+                return 1 / Math.Cos(radian_);
+            }
+            else if (opsi == 6)
+            {
+                if (a != 90)
+                {
+                    return 1 / Math.Tan(radian_);
                 }
                 else
                 {
@@ -60,6 +81,16 @@ namespace Kalkulator_CMD
             {
                 throw new NotImplementedException();
             }
+        }
+
+        private static double ConvertToRadian(double angleDegrees)
+        {
+            return angleDegrees * (Math.PI / 180);
+        }
+
+        private static double ConvertToDegree(double radian)
+        {
+            return radian * (180 / Math.PI);
         }
     }
 }
