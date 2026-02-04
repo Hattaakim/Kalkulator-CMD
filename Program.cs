@@ -302,7 +302,7 @@ Aplikasi akan memulai ulang...");
                 }
             }
             hasil = Kalkulator.ConvertToDegree(user_radian);
-            hasil_copy = $"Sudut dari radian {user_radian} adalah {hasil}";
+            hasil_copy = $"Sudut dari radian {user_radian} adalah {hasil}°";
             while (true)
             {
                 Console.Clear();
