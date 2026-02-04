@@ -337,46 +337,46 @@ Aplikasi akan memulai ulang...");
             {
                 display_jawaban = $"{pilihan_hitung[pilihan - 1]} ({sudut}°) = Tak Terhingga";
             }
-                while (true)
+            while (true)
+            {
+                Console.Clear();
+                if (is_infinity == false)
                 {
-                    Console.Clear();
-                    if (is_infinity == false)
-                    {
-                        Console.WriteLine($"Hasil dari {display_jawaban}");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Hasil dari {display_jawaban}");
-                    }
-                    Console.WriteLine(@"=========================================
+                    Console.WriteLine($"Hasil dari {display_jawaban}");
+                }
+                else
+                {
+                    Console.WriteLine($"Hasil dari {display_jawaban}");
+                }
+                Console.WriteLine(@"=========================================
 Operasi penghitungan matematika telah selesai. Apa yang ingin anda lakukan?
 [1] Copy penghitungan ke clipboard
 [2] Kembali ke halaman utama");
-                    Console.Write("Pilihan: ");
-                    string opsi_akhir = Console.ReadLine();
-                    if (int.TryParse(opsi_akhir, out int result))
+                Console.Write("Pilihan: ");
+                string opsi_akhir = Console.ReadLine();
+                if (int.TryParse(opsi_akhir, out int result))
+                {
+                    if (result <= 2 && result > 0)
                     {
-                        if (result <= 2 && result > 0)
+                        if (result == 1)
                         {
-                            if (result == 1)
-                            {
-                                Console.Clear();
-                                CopyToClipboard(display_jawaban);
-                                Console.WriteLine("Jawaban telah disalin ke clipboard!");
-                                Thread.Sleep(1000);
+                            Console.Clear();
+                            CopyToClipboard(display_jawaban);
+                            Console.WriteLine("Jawaban telah disalin ke clipboard!");
+                            Thread.Sleep(1000);
                        
-                            }
-                            else if (result == 2)
-                            {
-                                Console.Clear();
-                                Console.WriteLine("Kembali ke halaman utama...");
-                                Thread.Sleep(1000);
-                                HalamanUtama();
-                                break;
-                            }
+                        }
+                        else if (result == 2)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Kembali ke halaman utama...");
+                            Thread.Sleep(1000);
+                            HalamanUtama();
+                            break;
                         }
                     }
                 }
+            }
         }
     }
 }
