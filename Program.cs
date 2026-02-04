@@ -89,15 +89,16 @@ Silahkan masukkan pilihan operasi perhitungan anda!
 
 Izinkan proses sistem untuk membersihkan sampah...
 Aplikasi menutup secara otomatis dalam beberapa saat...");
+            Thread.Sleep(1000);
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            Thread.Sleep(1000);
-            return;
+            Environment.Exit(0);
         }
 
         private static void PenghitunganDasar()
         {
             int pilihanuser = 0;
+            bool exit = false;
             double angka_1 = 0;
             double angka_2 = 0;
             List<String> opsi_hitung = new List<String>()
@@ -123,7 +124,7 @@ Aplikasi menutup secara otomatis dalam beberapa saat...");
                     {
                         if (choose == 5)
                         {
-                            HalamanUtama();
+                            exit = true;
                             break;
                         }
                         pilihanuser = choose;
@@ -166,69 +167,74 @@ Aplikasi menutup secara otomatis dalam beberapa saat...");
                     }
                 }
             }
-            try
+            if (exit == true)
             {
-                double hasil = Kalkulator.Penghitungan_Dasar(angka_1, angka_2, pilihanuser);
-                Hasil_Hitung = $"{angka_1}{opsi_hitung[pilihanuser - 1]}{angka_2} = {hasil}";
-                while (true)
+                HalamanUtama();
+            }
+            else
+            {
+                try
                 {
-                    Console.Clear();
-                    Console.WriteLine($@"Hasil penghitungan {Hasil_Hitung}
+                    double hasil = Kalkulator.Penghitungan_Dasar(angka_1, angka_2, pilihanuser);
+                    Hasil_Hitung = $"{angka_1}{opsi_hitung[pilihanuser - 1]}{angka_2} = {hasil}";
+                    while (true)
+                    {
+                        Console.Clear();
+                        Console.WriteLine($@"Hasil penghitungan {Hasil_Hitung}
 =============================================================================
 Operasi penghitungan matematika telah selesai. Apa yang ingin anda lakukan selanjutnya?
 [1] Copy hasil ke clipboard
 [2] Kembali ke halaman utama");
-                    Console.Write("Pilihan: ");
-                    string pilihan_akhir = Console.ReadLine() ?? "";
-                    if (int.TryParse(pilihan_akhir, out int pa))
-                    {
-                        if (pa <= 2 && pa > 0)
+                        Console.Write("Pilihan: ");
+                        string pilihan_akhir = Console.ReadLine() ?? "";
+                        if (int.TryParse(pilihan_akhir, out int pa))
                         {
-                            if (pa == 1)
+                            if (pa <= 2 && pa > 0)
+                            {
+                                if (pa == 1)
+                                {
+                                    Console.Clear();
+                                    CopyToClipboard(Hasil_Hitung);
+                                    Console.WriteLine(@"Hasil penghitungan dicopy ke clipboard!");
+                                    Thread.Sleep(1000);
+                                }
+                                else if (pa == 2)
+                                {
+                                    break;
+                                }
+                            }
+                            else
                             {
                                 Console.Clear();
-                                CopyToClipboard(Hasil_Hitung);
-                                Console.WriteLine(@"Hasil penghitungan dicopy ke clipboard!");
+                                Console.WriteLine("Pilihan tidak ada!");
                                 Thread.Sleep(1000);
-                            }
-                            else if (pa == 2)
-                            {
-                                HalamanUtama();
-                                break;
                             }
                         }
                         else
                         {
                             Console.Clear();
-                            Console.WriteLine("Pilihan tidak ada!");
+                            Console.WriteLine("Mohon masukkan angka!");
                             Thread.Sleep(1000);
                         }
                     }
-                    else
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Mohon masukkan angka!");
-                        Thread.Sleep(1000);
-                    }
+                    HalamanUtama();
                 }
 
-            }
-
-            catch (DivideByZeroException)
-            {
-                Console.WriteLine(@"Terjadi kesalahan: membagi angka dengan 0
+                catch (DivideByZeroException)
+                {
+                    Console.WriteLine(@"Terjadi kesalahan: membagi angka dengan 0
 Aplikasi akan memulai ulang...");
-                Thread.Sleep(1000);
-                HalamanUtama();
-            }
-            catch (NotImplementedException)
-            {
-                Console.WriteLine(@"Terjadi kesalahan: fungsi belum dideklarasikan
+                    Thread.Sleep(1000);
+                    HalamanUtama();
+                }
+                catch (NotImplementedException)
+                {
+                    Console.WriteLine(@"Terjadi kesalahan: fungsi belum dideklarasikan
 Aplikasi akan memulai ulang...");
-                Thread.Sleep(1000);
-                HalamanUtama();
+                    Thread.Sleep(1000);
+                    HalamanUtama();
+                }
             }
-
         }
 
         private static void PenghitunganLainnya()
@@ -259,7 +265,6 @@ Aplikasi akan memulai ulang...");
                         }
                         else if (pa == 3)
                         {
-                            HalamanUtama();
                             break;
                         }
                     }
@@ -277,6 +282,7 @@ Aplikasi akan memulai ulang...");
                     Thread.Sleep(1000);
                 }
             }
+            HalamanUtama();
         }
 
         private static void Conv_Radian_Ke_Sudut()
@@ -327,12 +333,12 @@ Operasi penghitungan matematika telah selesai. Apa yang ingin anda lakukan sekar
                         }
                         else if (pilihan == 2)
                         {
-                            HalamanUtama();
                             break;
                         }
                     }
                 }
             }
+            HalamanUtama();
         }
 
         private static void Cari_Nilai_Dari_Sudut()
@@ -368,11 +374,6 @@ Operasi penghitungan matematika telah selesai. Apa yang ingin anda lakukan sekar
                 {
                     if (hasil <= 7 && hasil > 0)
                     {
-                        if(hasil == 7)
-                        {
-                            HalamanUtama();
-                            break;
-                        }
                         pilihan = hasil;
                         break;
                     }
@@ -384,6 +385,10 @@ Operasi penghitungan matematika telah selesai. Apa yang ingin anda lakukan sekar
                     }
                 }
 
+            }
+            if (hasil_hitung == 7)
+            {
+                HalamanUtama();
             }
 
             while (true)
@@ -463,7 +468,6 @@ Operasi penghitungan matematika telah selesai. Apa yang ingin anda lakukan?
                             Console.Clear();
                             Console.WriteLine("Kembali ke halaman utama...");
                             Thread.Sleep(1000);
-                            HalamanUtama();
                             break;
                         }
                     }
@@ -481,6 +485,7 @@ Operasi penghitungan matematika telah selesai. Apa yang ingin anda lakukan?
                     Thread.Sleep(1000);
                 }
             }
+            HalamanUtama();
         }
     }
 }
