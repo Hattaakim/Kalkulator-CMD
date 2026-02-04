@@ -91,6 +91,7 @@ Izinkan proses sistem untuk membersihkan sampah...
 Aplikasi menutup secara otomatis dalam beberapa saat...");
             GC.Collect();
             GC.WaitForPendingFinalizers();
+            Thread.Sleep(1000);
             return;
         }
 
