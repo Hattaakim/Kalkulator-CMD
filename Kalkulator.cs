@@ -102,7 +102,7 @@ namespace Kalkulator_CMD
             return angleDegrees * (Math.PI / 180);
         }
 
-        private static double ConvertToDegree(double radian)
+        public static double ConvertToDegree(double radian)
         {
             return radian * (180 / Math.PI);
         }

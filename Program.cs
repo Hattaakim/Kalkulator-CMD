@@ -99,6 +99,11 @@ Aplikasi menutup secara otomatis dalam beberapa saat...");
             int pilihanuser = 0;
             double angka_1 = 0;
             double angka_2 = 0;
+            List<String> opsi_hitung = new List<String>()
+            {
+                "+","×", "-", "÷",
+            };
+            string Hasil_Hitung = "";
 
             while (true)
             {
@@ -163,41 +168,47 @@ Aplikasi menutup secara otomatis dalam beberapa saat...");
             try
             {
                 double hasil = Kalkulator.Penghitungan_Dasar(angka_1, angka_2, pilihanuser);
-                int pilihanakhir = 0;
+                Hasil_Hitung = $"{angka_1}{opsi_hitung[pilihanuser - 1]}{angka_2} = {hasil}";
                 while (true)
                 {
                     Console.Clear();
-                    Console.WriteLine($@"Hasil penghitungannya adalah: {hasil}
+                    Console.WriteLine($@"Hasil penghitungan {Hasil_Hitung}
 =============================================================================
-Apa yang ingin anda lakukan?
+Operasi penghitungan matematika telah selesai. Apa yang ingin anda lakukan selanjutnya?
 [1] Copy hasil ke clipboard
 [2] Kembali ke halaman utama");
                     Console.Write("Pilihan: ");
                     string pilihan_akhir = Console.ReadLine() ?? "";
                     if (int.TryParse(pilihan_akhir, out int pa))
                     {
-                        pilihanakhir = pa;
-                        break;
+                        if (pa <= 2 && pa > 0)
+                        {
+                            if (pa == 1)
+                            {
+                                Console.Clear();
+                                CopyToClipboard(Hasil_Hitung);
+                                Console.WriteLine(@"Hasil penghitungan dicopy ke clipboard!");
+                                Thread.Sleep(1000);
+                            }
+                            else if (pa == 2)
+                            {
+                                HalamanUtama();
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Pilihan tidak ada!");
+                            Thread.Sleep(1000);
+                        }
                     }
                     else
                     {
                         Console.Clear();
-                        Console.WriteLine("Pilihan tidak ada!");
+                        Console.WriteLine("Mohon masukkan angka!");
                         Thread.Sleep(1000);
                     }
-                }
-                if (pilihanakhir == 1)
-                {
-                    Console.Clear();
-                    CopyToClipboard($"{hasil}");
-                    Console.WriteLine(@"Hasil penghitungan dicopy ke clipboard
-Kembali ke halaman utama...");
-                    Thread.Sleep(1000);
-                    HalamanUtama();
-                }
-                else
-                {
-                    HalamanUtama();
                 }
 
             }
@@ -226,7 +237,7 @@ Aplikasi akan memulai ulang...");
                 Console.Clear();
                 Console.WriteLine(@"Silahkan tentukan pilihan opsi penghitungan!
 [1] Cari nilai dari sudut tertentu
-[2] Cari sudut dari nilai tertentu
+[2] Konversi angka radian ke satuan sudut
 [3] Kembali ke halaman utama");
                 Console.Write("Pilihan: ");
 
@@ -242,7 +253,7 @@ Aplikasi akan memulai ulang...");
                         }
                         else if (pa == 2)
                         {
-                            Cari_Sudut_Dari_Nilai();
+                            Conv_Radian_Ke_Sudut();
                             break;
                         }
                         else if (pa == 3)
@@ -267,72 +278,58 @@ Aplikasi akan memulai ulang...");
             }
         }
 
-        private static void Cari_Sudut_Dari_Nilai()
+        private static void Conv_Radian_Ke_Sudut()
         {
-            double sudut = 0;
-            double hasil_hitung = 0;
-            int pilihan = 0;
-            string display_jawaban = "";
-            List<string> pilihan_hitung = new List<string>()
-            {
-                "SIN",
-                "COS",
-                "TAN",
-                "CSC",
-                "SEC",
-                "COT",
-            };
+            double hasil;
+            string hasil_copy;
+            double user_radian;
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine(@"Silahkan pilih fungsi trigonometri!
-[1] Sin
-[2] Cos
-[3] Tan
-[4] Cosec (csc)
-[5] Secan (sec)
-[6] Cotangen (cot)
-[7] Kembali ke halaman utama");
-                Console.Write("Pilihan anda: ");
-                string pilihan_ = Console.ReadLine() ?? "";
-                if (int.TryParse(pilihan_, out int hasil))
+                Console.WriteLine(@"Silahkan masukkan angka radian yang ingin dikonversi ke satuan sudut!");
+                Console.Write("Angka Radian: ");
+                string user_input = Console.ReadLine() ?? "";
+                if (double.TryParse(user_input, out double radian))
                 {
-                    if (hasil <= 7 && hasil > 0)
-                    {
-                        if (hasil == 7)
-                        {
-                            HalamanUtama();
-                            break;
-                        }
-                        pilihan = hasil;
-                        break;
-                    }
-                    else
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Pilihan tidak tersedia!");
-                        Thread.Sleep(1000);
-                    }
-                }
-
-            }
-
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("Silahkan masukkan angka radian yang akan dicari sudutnya!");
-                Console.Write("Angka Sudut (bukan radian): ");
-                string sudut_input = Console.ReadLine() ?? "";
-                if (double.TryParse(sudut_input, out double sudut_))
-                {
-                    sudut = sudut_;
+                    user_radian = radian;
                     break;
                 }
                 else
                 {
                     Console.Clear();
-                    Console.WriteLine($"Input yang anda masukkan bukanlah angka");
+                    Console.WriteLine("Input harus berupa angka!");
                     Thread.Sleep(1000);
+                }
+            }
+            hasil = Kalkulator.ConvertToDegree(user_radian);
+            hasil_copy = $"Sudut dari radian {user_radian} adalah {hasil}";
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine($@"{hasil_copy}
+======================================================================
+Operasi penghitungan matematika telah selesai. Apa yang ingin anda lakukan sekarang?
+[1] Copy hasil ke clipboard
+[2] Kembali ke halaman utama");
+                Console.Write("Pilihan: ");
+                string user_in = Console.ReadLine() ?? "";
+                if(int.TryParse(user_in, out int pilihan))
+                {
+                    if(pilihan <= 2 && pilihan > 0)
+                    {
+                        if(pilihan == 1)
+                        {
+                            Console.Clear();
+                            CopyToClipboard(hasil_copy);
+                            Console.WriteLine("Hasil penghitungan di copy ke clipboard!");
+                            Thread.Sleep(1000);
+                        }
+                        else if (pilihan == 2)
+                        {
+                            HalamanUtama();
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -468,6 +465,12 @@ Operasi penghitungan matematika telah selesai. Apa yang ingin anda lakukan?
                             HalamanUtama();
                             break;
                         }
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Pilihan tidak ada!");
+                        Thread.Sleep(1000);
                     }
                 }
                 else
